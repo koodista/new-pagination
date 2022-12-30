@@ -1,15 +1,29 @@
+
+
 import * as React from 'react';
 //import Box from '@mui/material/Box'; //30.12
 import { DataGrid } from '@mui/x-data-grid';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+
 //import App from '../../App'; //30.12
 
 function DataGridForBikeJourneys() {
     const [data, setData] = useState([]);
+    const [page, setPage] = useState([]);
+    const [pages, setPages] = useState([])
+    const [pageSize, setPageSize] = useState({})
+    const [pageState, setPageState] = useState({
+          isLoading: false,
+          data: [],
+          total: 0,
+          page: 1,
+          pageSize: [100],
+        });
+    
 
     const getBikejourneyData = async() => {
-        await axios.get("http://localhost:3001/api/bikejourneys").then((res) => {
+        await axios.get(`http://localhost:3001/api/bikejourneys?page=${page}`).then((res) => {
             setData(res.data.data);
         });
     };
@@ -81,7 +95,7 @@ function DataGridForBikeJourneys() {
         },
         ];
 
-        const rows = data.map((row) => ({
+        const rows = data.map((row) => ({       //rows
             id: row.id,
             departure: row.departure,
             return: row.return,
@@ -97,11 +111,28 @@ function DataGridForBikeJourneys() {
 
     return (
         <div style={{ height: 400, width: '100%' }}>
-            <div style={{ display: 'flex', height: '100%'}}>
-            <div style={{ flexGrow: 1}}>
-            <DataGrid columns={columns} rows={data} getRowId={(rows) => rows._id} />
-            </div>
-            </div>
+            
+            <DataGrid 
+            autoHeight
+            rows={data}
+            getRowId={(rows) => rows._id} 
+            
+            loading={false}
+            rowsPerPageOptions={[100]}
+            pagination
+            page={page}
+            
+            autoPageSize
+            paginationMode="server"
+            onPageChange={(newPage) => setPageState(newPage)}
+            // {
+            //   setPageState(old => ({...old, page: newPage + 1}))
+            // }}
+            onPageSizeChange={(newPageSize) => setPageState(newPageSize)}
+            columns={columns}
+       
+            />
+           
         </div>
     
 )};
@@ -111,30 +142,30 @@ export default DataGridForBikeJourneys;
 
 
 
-// const rows = [
-//   { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-//   { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-//   { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-//   { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-//   { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-//   { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-//   { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-//   { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-//   { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
-// ];
+// // const rows = [
+// //   { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
+// //   { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
+// //   { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
+// //   { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
+// //   { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
+// //   { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
+// //   { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
+// //   { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
+// //   { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
+// // ];
 
-// export default function bikejourney() {
-//   return (
-//     <Box sx={{ height: 400, width: '100%' }}>
-//       <DataGrid
-//         rows={rows}
-//         columns={columns}
-//         pageSize={5}
-//         rowsPerPageOptions={[5]}
-//         checkboxSelection
-//         disableSelectionOnClick
-//         experimentalFeatures={{ newEditingApi: true }}
-//       />
-//     </Box>
-//   );
-// }
+// // export default function bikejourney() {
+// //   return (
+// //     <Box sx={{ height: 400, width: '100%' }}>
+// //       <DataGrid
+// //         rows={rows}
+// //         columns={columns}
+// //         pageSize={5}
+// //         rowsPerPageOptions={[5]}
+// //         checkboxSelection
+// //         disableSelectionOnClick
+// //         experimentalFeatures={{ newEditingApi: true }}
+// //       />
+// //     </Box>
+// //   );
+// // }
