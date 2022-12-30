@@ -15,8 +15,8 @@ exports.getAllBikejourneys = asyncHandler(async (req, res, next) => {
   // })
   let query = Bikejourney.find();
 
-  const page = parseInt(req.query.page) || 1;
-  const pageSize = parseInt(req.query.limit) || 1000;
+  const page = parseInt(req.query.page) || 45;
+  const pageSize = parseInt(req.query.limit) || 100;
   const skip = (page - 1) * pageSize;
   const total = await Bikejourney.countDocuments();
 
