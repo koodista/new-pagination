@@ -1,10 +1,5 @@
 
-import { useState, useEffect } from 'react';
-
-
-
-
-
+//import { useState, useEffect } from 'react';
 
 import DataGridForBikeJourneys from './components/DataGrid/DataGrid';
 
@@ -12,33 +7,33 @@ const  App = () => {  //{ match }
     
     //const pageNumber = match.params.pageNumber || 1;
   
-    const [bikejourneys, setBikejourneys] = useState();
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(false);
+    // const [bikejourneys, setBikejourneys] = useState();  //30.12
+    // const [loading, setLoading] = useState(false);
+    // const [error, setError] = useState(false);
   
-    const [page, setPage] = useState();  //pageNumber
-    const [pages, setPages] = useState();
+    // const [page, setPage] = useState();  //pageNumber
+    // const [pages, setPages] = useState();
   
-    useEffect(() => {
-      const fecthBikejourneys = async () => {
-        setLoading(true);
-        try {
-          const res = await fetch(`/api/bikejourneys`);  //?page=${page}
+    // useEffect(() => {
+    //   const fecthBikejourneys = async () => {
+    //     setLoading(true);
+    //     try {
+    //       const res = await fetch(`/api/bikejourneys`);  //?page=${page}
   
-          const { data, pages: totalPages } = await res.json();
+    //       const { data, pages: totalPages } = await res.json();
   
-          setPages(totalPages);
-          setBikejourneys(data);
-          setLoading(false);
-        } catch (error) {
-          console.log(error);
-          setLoading(false);
-          setError("Some error occured");
-        }
-      };
+    //       setPages(totalPages);
+    //       setBikejourneys(data);
+    //       setLoading(false);
+    //     } catch (error) {
+    //       console.log(error);
+    //       setLoading(false);
+    //       setError("Some error occured");
+    //     }
+    //   };
   
-      fecthBikejourneys();
-    }, []);
+    //   fecthBikejourneys();
+    // }, []);
 
 
     return (

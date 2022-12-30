@@ -8,7 +8,7 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import { useParams } from "react-router-dom";
+//import { useParams } from "react-router-dom"; 30.12
 
 import ErrorPage from "./error-page";
 
@@ -20,10 +20,10 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <ErrorPage />,
   },
-  {
-    path: "/page/:pageNumber",
-    element: <App />,
-  },
+  // {    //30.12
+  //   path: "/page/:pageNumber",
+  //   element: <App />,
+  // },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

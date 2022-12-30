@@ -1,9 +1,9 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
+//import Box from '@mui/material/Box'; //30.12
 import { DataGrid } from '@mui/x-data-grid';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import App from '../../App';
+//import App from '../../App'; //30.12
 
 function DataGridForBikeJourneys() {
     const [data, setData] = useState([]);

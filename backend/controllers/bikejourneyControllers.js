@@ -5,55 +5,50 @@ const { isValidObjectId } = require('mongoose');
 
 
 
-exports.getAllBikejourneys = asyncHandler(async (req, res, next) => {
+//exports.getAllBikejourneys = asyncHandler(async (req, res, next) => {
 
-  // const bikejourneys = await Bikejourney.find();
+  
+//   let query = Bikejourney.find();
 
-  // res.status(200).json({
-  //   success: true,
-  //   data: bikejourneys,
-  // })
-  let query = Bikejourney.find();
+//   const page = parseInt(req.query.page) || 1;
+//   const pageSize = parseInt(req.query.limit) || 1000;
+//   const skip = (page - 1) * pageSize;
+//   const total = await Bikejourney.countDocuments();
 
-  const page = parseInt(req.query.page) || 45;
-  const pageSize = parseInt(req.query.limit) || 100;
-  const skip = (page - 1) * pageSize;
-  const total = await Bikejourney.countDocuments();
+//   const pages = Math.ceil(total / pageSize);
 
-  const pages = Math.ceil(total / pageSize);
+//   query = query.skip(skip).limit(pageSize);
 
-  query = query.skip(skip).limit(pageSize);
+//   if(page > pages) {
+//     return res.status(404).json({
+//       status: 'Failed',
+//       message: 'No page found'
+//     })
+//   }
 
-  if(page > pages) {
-    return res.status(404).json({
-      status: 'Failed',
-      message: 'No page found'
-    })
-  }
+//   const result = await query;
 
-  const result = await query;
-
-  res.status(200).json({
-      status: 'success',                //success: true,
-      count: result.length,             //data: bikejourneys
-      page,
-      pages,
-      data: result
+//   res.status(200).json({
+//       status: 'success',                //success: true,
+//       count: result.length,             //data: bikejourneys
+//       page,
+//       pages,
+//       data: result
                                                                                   
-  })
-});
+//   })
+// });
 
-exports.filterAllBikejourneys = asyncHandler(async (req, res, next) => {    //mongodb query language
+exports.getAllBikejourneys = asyncHandler(async (req, res, next) => {    //mongodb query language
 
   let query;
 
   const reqQuery = { ...req.query };
 
-  const removeFields = ["sort"];
+  //const removeFields = ["sort"];
 
   //console.log(reqQuery);
 
-  removeFields.forEach(param => delete reqQuery[param]);           //[param or val] //delete key=value pair from an object
+  //removeFields.forEach(param => delete reqQuery[param]);           //[param or val] //delete key=value pair from an object
 
   //console.log(reqQuery);
 
@@ -61,21 +56,21 @@ exports.filterAllBikejourneys = asyncHandler(async (req, res, next) => {    //mo
 
   //console.log(queryStr);
 
-  queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, (match) => `$${match}`);
+  //queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, (match) => `$${match}`);
 
   //console.log(queryStr);
 
   query = Bikejourney.find(JSON.parse(queryStr));
 
-  if (req.query.sort) {
-    const sortByArr = req.query.sort.split(',');
+  // if (req.query.sort) {
+  //   const sortByArr = req.query.sort.split(',');
 
-    const sortByStr = sortByArr.join(' ');
+  //   const sortByStr = sortByArr.join(' ');
 
-    query = query.sort(sortByStr);
-  } else {
-    query = query.sort('-duration')
-  }
+  //   query = query.sort(sortByStr);
+  // } else {
+  //   query = query.sort('-duration')
+  // }
 
   //                                          {"duration":{"$lte":"50"}}
   //const bikejourneys = await Bikejourney.find(JSON.parse(queryStr));
