@@ -5,41 +5,13 @@ const { isValidObjectId } = require('mongoose');
 
 
 
-exports.getAllBikejourneys = asyncHandler(async (req, res, next) => {
-//   let query = Bikejourney.find();
-//   let { page, limit } = req.query
-//   if(!page) page = 1
-//   if (!limit) limit = 100
-//   page = parseInt(page)
-//   limit = parseInt(limit)
+exports.paginateAllBikejourneys = asyncHandler(async (req, res, next) => {
+  //const bikejourneys = await Bikejourney.find();
 
-//   const result = await query;
-//   return res.json({
-//     data: result.slice((page -1) * limit, page * limit),
-//     total: result.length
-//   })
-// })
-// let query = Bikejourney.find();
-
-
-
-  
-//   .sort({duration: 1})
-  
-  
-//   .forEach(bikejourney => bikejourneys.push(bikejourney))
-//   .then(() => {
-//     res.status(200).json(bikejourneys)
-//   })
-//   .catch(() => {
-//     res.status(500).json({error: 'Could not fetch the documents'})
-//   })
-
-// })
- let query = Bikejourney.find();
+  let query = Bikejourney.find();
 
   const page = parseInt(req.query.page) || 1;
-  const pageSize = parseInt(req.query.limit) || 100;
+  const pageSize = parseInt(req.query.limit) || 50;
   const skip = (page - 1) * pageSize;
   const total = await Bikejourney.countDocuments();
 
@@ -66,49 +38,49 @@ exports.getAllBikejourneys = asyncHandler(async (req, res, next) => {
   })
 });
 
-// exports.filterAllBikejourneys = asyncHandler(async (req, res, next) => {    //mongodb query language
+exports.filterAllBikejourneys = asyncHandler(async (req, res, next) => {    //mongodb query language
 
-//   let query;
+  let query;
 
-//   const reqQuery = { ...req.query };
+  const reqQuery = { ...req.query };
 
-//   //const removeFields = ["sort"];
+  const removeFields = ["sort"];
 
-//   //console.log(reqQuery);
+  //console.log(reqQuery);
 
-//   //removeFields.forEach(param => delete reqQuery[param]);           //[param or val] //delete key=value pair from an object
+  removeFields.forEach(param => delete reqQuery[param]);           //[param or val] //delete key=value pair from an object
 
-//   //console.log(reqQuery);
+  //console.log(reqQuery);
 
-//   let queryStr = JSON.stringify(reqQuery);
+  let queryStr = JSON.stringify(reqQuery);
 
-//   //console.log(queryStr);
+  //console.log(queryStr);
 
-//   //queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, (match) => `$${match}`);
+  queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, (match) => `$${match}`);
 
-//   //console.log(queryStr);
+  //console.log(queryStr);
 
-//   query = Bikejourney.find(JSON.parse(queryStr));
+  query = Bikejourney.find(JSON.parse(queryStr));
 
-//   // if (req.query.sort) {
-//   //   const sortByArr = req.query.sort.split(',');
+  if (req.query.sort) {
+    const sortByArr = req.query.sort.split(',');
 
-//   //   const sortByStr = sortByArr.join(' ');
+    const sortByStr = sortByArr.join(' ');
 
-//   //   query = query.sort(sortByStr);
-//   // } else {
-//   //   query = query.sort('-duration')
-//   // }
+    query = query.sort(sortByStr);
+  } else {
+    query = query.sort('-duration')
+  }
 
-//   //                                          {"duration":{"$lte":"50"}}
-//   //const bikejourneys = await Bikejourney.find(JSON.parse(queryStr));
-//   const bikejourneys = await query;
+  //                                          {"duration":{"$lte":"50"}}
+  //const bikejourneys = await Bikejourney.find(JSON.parse(queryStr));
+  const bikejourneys = await query;
   
-//   res.status(200).json({
-//     status: 'success',
-//     data: bikejourneys
-//   })
-// });
+  res.status(200).json({
+    status: 'success',
+    data: bikejourneys
+  })
+});
 
 exports.createNewBikejourney = asyncHandler(async (req, res, next) => {
   const bikejourney = await Bikejourney.create(req.body);

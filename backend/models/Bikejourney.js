@@ -26,9 +26,8 @@ const bikejourneySchema = new mongoose.Schema({
   duration: {
     type: Number,  
   }, 
-}, { collection: '202105' }); //{ collection: 'Solita.202105'}
+}, { collection: '202105'});
 
 const Bikejourney = mongoose.model("Bikejourney", bikejourneySchema);
 
 module.exports = Bikejourney;
-//module.exports = mongoose.model("Bikejourney", bikejourneySchema);

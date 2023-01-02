@@ -10,7 +10,7 @@ import { useState, useEffect } from 'react';
 
 function DataGridForBikeJourneys() {
     const [data, setData] = useState([]);
-    const [page, setPage] = useState([]);
+    const [page, setPage] = useState();
     const [pages, setPages] = useState([])
     const [pageSize, setPageSize] = useState({})
     const [pageState, setPageState] = useState({
