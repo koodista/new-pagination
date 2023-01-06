@@ -1,22 +1,39 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
+
 import { DataGrid } from '@mui/x-data-grid';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import App from '../../App';
+
 
 function DataGridForBikeJourneys() {
     const [data, setData] = useState([]);
+    const [bikejourneys, setBikejourneys] = useState([]);
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
     const getBikejourneyData = async() => {
         await axios.get("http://localhost:3001/api/bikejourneys").then((res) => {
-            setData(res.data.data);
+            setBikejourneys(res.data.bikejourneys);
+            setTotalPages(res.data.pages);
         });
     };
 
     useEffect(() => {
         getBikejourneyData();
-    }, []);
+    }, [page]);
+
+
+    const handlePrevClick = () => {
+        if (page > 1) {
+          setPage(page - 1);
+        }
+      };
+    
+      const handleNextClick = () => {
+        if (page < totalPages) {
+          setPage(page + 1);
+        }
+      };
 
     const columns = [
           { field: '_id', 
@@ -94,17 +111,29 @@ function DataGridForBikeJourneys() {
         }))
 
     console.log(data);
-
     return (
-        <div style={{ height: 400, width: '100%' }}>
-            <div style={{ display: 'flex', height: '100%'}}>
-            <div style={{ flexGrow: 1}}>
-            <DataGrid columns={columns} rows={data} getRowId={(rows) => rows._id} />
-            </div>
-            </div>
-        </div>
+        <DataGrid
+          data={data.bikejourneys}
+          page={page - 1}
+          onChangePage={this.handleChangePage}
+          count={data.total}
+          rowsPerPage={pageSize}
+          totalPages={totalPages}
+        >
+          {/* add columns here */}
+        </DataGrid>
+      );
+    }
+//     return (
+//         <div style={{ height: 400, width: '100%' }}>
+//             <div style={{ display: 'flex', height: '100%'}}>
+//             <div style={{ flexGrow: 1}}>
+//             <DataGrid columns={columns} rows={data} getRowId={(rows) => rows._id} />
+//             </div>
+//             </div>
+//         </div>
     
-)};
+// )};
 
 export default DataGridForBikeJourneys;
 
